@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Mahasiswa</title>
+    <title>Data Matakuliah</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f0f2f5; }
@@ -13,40 +13,40 @@
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="text-primary font-weight-bold">Daftar Mahasiswa</h2>
-            <a href="{{ url('mahasiswa/create') }}" class="btn btn-success px-4">+ Tambah Mahasiswa</a>
+            <h2 class="text-info font-weight-bold">Daftar Matakuliah</h2>
+            <a href="{{ url('matakuliah/create') }}" class="btn btn-success px-4">+ Tambah Matakuliah</a>
         </div>
 
         <table class="table table-hover table-bordered shadow-sm">
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
-                    <th>NIM</th>
-                    <th>Nama Mahasiswa</th>
-                    <th>Alamat</th>
+                    <th>Kode MK</th>
+                    <th>Nama Matakuliah</th>
+                    <th>SKS</th>
                     <th class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($mahasiswas as $mhs)
+                @foreach($matakuliahs as $mk)
                 <tr>
-                    <td>{{ $mhs->id }}</td>
-                    <td>{{ $mhs->nim }}</td>
-                    <td>{{ $mhs->fullname }}</td>
-                    <td>{{ $mhs->address }}</td>
+                    <td>{{ $mk->id }}</td>
+                    <td>{{ $mk->kode_mk }}</td>
+                    <td>{{ $mk->nama_mk }}</td>
+                    <td>{{ $mk->sks }}</td>
                     <td class="text-center">
-                        <a href="{{ url('mahasiswa/'.$mhs->id.'/edit') }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ url('matakuliah/'.$mk->id.'/edit') }}" class="btn btn-warning btn-sm">Edit</a>
                         
-                        <form action="{{ url('mahasiswa/'.$mhs->id) }}" method="post" class="d-inline">
+                        <form action="{{ url('matakuliah/'.$mk->id) }}" method="post" class="d-inline">
                             @csrf
                             @method('delete')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus data mahasiswa ini?')">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus matakuliah ini?')">Delete</button>
                         </form>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
-        </tbody>
-    </table>
+        </table>
+    </div>
 </body>
 </html>
