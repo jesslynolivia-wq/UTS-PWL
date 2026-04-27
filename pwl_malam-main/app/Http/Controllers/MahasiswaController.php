@@ -3,75 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreMahasiswaRequest;
+use App\Http\Requests\UpdateMahasiswaRequest;
 
-class MahasiswaController
+class MahasiswaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('mahasiswa.index', [
-            'mahasiswa' => Mahasiswa::all()
-        ]);
+        $mahasiswas = Mahasiswa::all();
+        return view('mahasiswa.index', compact('mahasiswas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('mahasiswa.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreMahasiswaRequest $request)
     {
-        $data = $request->except('_token');
-
-        Mahasiswa::create($data);
-
-        return redirect()->action([MahasiswaController::class, 'index']);
+        Mahasiswa::create($request->validated());
+        return redirect()->route('mahasiswa.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
+    public function show(Mahasiswa $mahasiswa)
     {
-        return Mahasiswa::find($id);
+        return view('mahasiswa.show', compact('mahasiswa'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit(Mahasiswa $mahasiswa)
     {
-        return view('mahasiswa.edit', [
-            'mahasiswa' => Mahasiswa::find($id)
-        ]);
+        return view('mahasiswa.edit', compact('mahasiswa'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateMahasiswaRequest $request, Mahasiswa $mahasiswa)
     {
-        $data = $request->except('_token');
-
-        Mahasiswa::find($id)->update($data);
-
-        return redirect()->action([MahasiswaController::class, 'index']);
+        $mahasiswa->update($request->validated());
+        return redirect()->route('mahasiswa.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Mahasiswa $mahasiswa)
     {
-        //
+        $mahasiswa->delete();
+        return redirect()->route('mahasiswa.index');
     }
 }
